@@ -1,25 +1,38 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import GroceryList from './containers/GroceryList';
+import Form from './containers/Form';
+import ShoppingCart from './containers/ShoppingCart';
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      const [product, setProduct] = useState([{item: 'Peach',
+                                               brand: 'Peachy Dream',
+                                               units: 'ea',
+                                               quantity: 100,
+                                               isPurchased: 'true'}]);
+     
+
+
+
+ function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const formJson = Object.fromEntries(formData.entries());
+    setProduct((prev) => [...prev, formJson]);
+    document.querySelector('.form').reset();
+}
+
+
+
+  return(
+    <div className='container'>
+      <GroceryList items={product}/>
+      <Form onSubmit={handleSubmit}/>
+      <ShoppingCart items={product}/>
     </div>
   );
+
 }
 
 export default App;
